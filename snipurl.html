@@ -48,7 +48,9 @@
         let urlString = document.querySelector("#input-box").value;
         const redditContextStr = urlString.match(/(context=\d)/g);
         let transformedString = urlString.split("?")[0];
-        transformedString += "?" + redditContextStr;
+        if (redditContextStr) {
+          transformedString += "?" + redditContextStr;
+        }
         document.querySelector("#output-box").value = transformedString;
         document.querySelector("#output-box").select();
         document.execCommand('copy');
