@@ -22,7 +22,13 @@
       }
 
       textarea {
-        width: 100%;
+        width: 500px;
+      }
+      
+      @media (max-width : 1080px) {
+        textarea {
+          width: 100%;
+        }
       }
     </style>
     <script>
@@ -40,7 +46,9 @@
 
       function snipURL() {
         let urlString = document.querySelector("#input-box").value;
+        const redditContextStr = urlString.match(/(context=\d)/g);
         let transformedString = urlString.split("?")[0];
+        transformedString += "?" + redditContextStr;
         document.querySelector("#output-box").value = transformedString;
         document.querySelector("#output-box").select();
         document.execCommand('copy');
@@ -70,5 +78,18 @@
     <p>
       <textarea id="output-box" cols="50" rows="5" readonly="true"></textarea>
     </p>
+    
+    <script>
+      const inputBox = document.querySelector("#input-box");
+      if (inputBox.addEventListener) {
+        inputBox.addEventListener('input', function() {
+          snipURL();
+        }, false);
+      } else if (inputBox.attachEvent) {
+        inputBox.attachEvent('onpropertychange', function() {
+          snipURL();
+        });
+      }
+    </script>
   </body>
 </html>
