@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>Snip URL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        max-width: 90%;
+        margin: 50px auto;
+        font-family: "verdana", "sans-serif";
+      }
+
+      #status-msg {
+        opacity: 0;
+        transition: opacity 1s ease-out;
+        font-size: 1em;
+      }
+
+      button {
+        padding: 10px;
+        min-width: 100px;
+        font-size: 1.5em;
+      }
+
+      textarea {
+        width: 100%;
+      }
+    </style>
+    <script>
+      function copyToClipboard(clipboardString) {
+        navigator.clipboard.writeText(clipboardString);
+      }
+
+      function copiedStatus() {
+        const statusText = document.querySelector("#status-msg");
+        statusText.style.opacity = 1;
+        setInterval(() => {
+          statusText.style.opacity = 0;
+        }, 2000);
+      }
+
+      function snipURL() {
+        let urlString = document.querySelector("#input-box").value;
+        let transformedString = urlString.split("?")[0];
+        document.querySelector("#output-box").value = transformedString;
+        document.querySelector("#output-box").select();
+        document.execCommand('copy');
+        copiedStatus();
+      }
+      
+      function clearBoxes() {
+        document.querySelector("#input-box").value = "";
+        document.querySelector("#output-box").value = "";
+      }
+    </script>
+  </head>
+  <body>
+    Enter URL here:
+
+    <p>
+      <textarea id="input-box" cols="50" rows="5"></textarea>
+    </p>
+
+    <p>
+      <button onclick="snipURL()">Snip</button>
+      <button onclick="clearBoxes()">Clear</button>
+    </p>
+
+    <p><span id="status-msg">Copied to clipboard!</span></p>
+
+    <p>
+      <textarea id="output-box" cols="50" rows="5" readonly="true"></textarea>
+    </p>
+  </body>
+</html>
